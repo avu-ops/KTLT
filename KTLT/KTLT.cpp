@@ -36,19 +36,84 @@ void main()
     std::cout << "Ky tu in hoa: " << kytu;
 }
 */
-#include <stdio.h>
-int getArrayPointer(int array_1[])
-{
-    printf("%x", array_1);
-    return 0;
-}
 
+
+#include <iostream>
+#include <ctype.h>
+
+#define N_MENH_GIA 6
+int menh_gia[N_MENH_GIA] = {10, 20, 50, 100, 200, 500 };
+
+struct tien_rut{
+    unsigned n_dongtien;
+    unsigned n_dong_theo_menhgia[N_MENH_GIA];
+};
+
+tien_rut nmin(int so_tien, unsigned theomenhgia[])
+{
+    tien_rut ret;
+    memset(&ret, 0, sizeof(ret));
+
+    for (int i = 0; i < N_MENH_GIA; ++i)
+    {
+        if (so_tien == menh_gia[i])
+        {
+            ret.n_dong_theo_menhgia[i] += 1;
+            ret.n_dongtien += 1;
+
+            return ret;
+        }
+    }
+
+    tien_rut next_min[N_MENH_GIA];
+    memset(&next_min, 0, sizeof(next_min));
+    unsigned n_dongtien_min = (unsigned)-1;
+    unsigned min_idx = 0;
+
+    for (int i = 0; i < N_MENH_GIA; ++i)
+    {
+        if (so_tien - menh_gia[i] >= 0)
+        {
+            next_min[i] = nmin(so_tien - menh_gia[i], ret.n_dong_theo_menhgia);
+        }
+        else
+        {
+            next_min[i].n_dongtien = unsigned(-1);
+        }
+
+        if (next_min[i].n_dongtien < n_dongtien_min)
+        {
+            ret.n_dongtien = next_min[i].n_dongtien;
+            memcpy(&ret.n_dong_theo_menhgia[0], &next_min[i].n_dong_theo_menhgia[0], sizeof(ret.n_dong_theo_menhgia));
+            min_idx = i;
+        }
+    }
+    
+    ret.n_dong_theo_menhgia[min_idx] += 1;
+    ret.n_dongtien += 1;
+
+    return ret;
+}
 void main()
 {
-    int array_0[] = { 1,2,3,4,5 };
-    printf("array_0: %x\r", array_0);
-    getArrayPointer(array_0);
+    std::cout << "Nhap so tien can rut: ";
+
+    int so_tien;
+    std::cin >> so_tien;
+
+    // memset(&sotien_theo_menhgia[0], 0, sizeof(sotien_theo_menhgia));
+    
+    unsigned theomenhgia[N_MENH_GIA] = { 0 };
+    tien_rut tienrut = nmin(so_tien, theomenhgia);
+
+    std::cout << "Can: \n";
+    for (int i = N_MENH_GIA-1; i >= 0; --i)
+    {
+        std::cout << menh_gia[i] << " x " << tienrut.n_dong_theo_menhgia[i] << std::endl;
+    }
+    std::cout << "Tong cong: " << tienrut.n_dongtien << " dong";
 }
+
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
