@@ -1,4 +1,4 @@
-// KTLT.cpp : This file contains the 'main' function. Program execution begins and ends there.
+﻿// KTLT.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
 /*
@@ -54,7 +54,7 @@ tien_rut nmin(int so_tien, unsigned theomenhgia[])
     tien_rut ret;
     memset(&ret, 0, sizeof(ret));
 
-    for (int i = 0; i < N_MENH_GIA; ++i)
+    for (int i = 0; i < N_MENH_GIA; ++i) // nếu số tiền còn lại = đúng mệnh giá, trả về 1 đồng và mệnh giá tương ứng
     {
         if (so_tien == menh_gia[i])
         {
@@ -70,7 +70,7 @@ tien_rut nmin(int so_tien, unsigned theomenhgia[])
     unsigned n_dongtien_min = (unsigned)-1;
     unsigned min_idx = 0;
 
-    for (int i = 0; i < N_MENH_GIA; ++i)
+    for (int i = 0; i < N_MENH_GIA; ++i) // thử với từng mệnh giá, tìm ra giá trị tối thiểu tiếp theo
     {
         if (so_tien - menh_gia[i] >= 0)
         {
@@ -81,9 +81,10 @@ tien_rut nmin(int so_tien, unsigned theomenhgia[])
             next_min[i].n_dongtien = unsigned(-1);
         }
 
-        if (next_min[i].n_dongtien < n_dongtien_min)
+        if (next_min[i].n_dongtien < n_dongtien_min) // lấy giá trị tối thiểu
         {
-            ret.n_dongtien = next_min[i].n_dongtien;
+            n_dongtien_min = next_min[i].n_dongtien;
+            ret.n_dongtien = n_dongtien_min;
             memcpy(&ret.n_dong_theo_menhgia[0], &next_min[i].n_dong_theo_menhgia[0], sizeof(ret.n_dong_theo_menhgia));
             min_idx = i;
         }
@@ -100,9 +101,7 @@ void main()
 
     int so_tien;
     std::cin >> so_tien;
-
-    // memset(&sotien_theo_menhgia[0], 0, sizeof(sotien_theo_menhgia));
-    
+ 
     unsigned theomenhgia[N_MENH_GIA] = { 0 };
     tien_rut tienrut = nmin(so_tien, theomenhgia);
 
