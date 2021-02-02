@@ -42,75 +42,49 @@ void main()
 #include <ctype.h>
 
 #define N_MENH_GIA 6
-int menh_gia[N_MENH_GIA] = {10, 20, 50, 100, 200, 500 };
+unsigned menh_gia[N_MENH_GIA] = {10, 20, 50, 100, 200, 500 };
 
-struct tien_rut{
-    unsigned n_dongtien;
-    unsigned n_dong_theo_menhgia[N_MENH_GIA];
-};
-
-tien_rut nmin(int so_tien, unsigned theomenhgia[])
-{
-    tien_rut ret;
-    memset(&ret, 0, sizeof(ret));
-
-    for (int i = 0; i < N_MENH_GIA; ++i) // nếu số tiền còn lại = đúng mệnh giá, trả về 1 đồng và mệnh giá tương ứng
-    {
-        if (so_tien == menh_gia[i])
-        {
-            ret.n_dong_theo_menhgia[i] += 1;
-            ret.n_dongtien += 1;
-
-            return ret;
-        }
-    }
-
-    tien_rut next_min[N_MENH_GIA];
-    memset(&next_min, 0, sizeof(next_min));
-    unsigned n_dongtien_min = (unsigned)-1;
-    unsigned min_idx = 0;
-
-    for (int i = 0; i < N_MENH_GIA; ++i) // thử với từng mệnh giá, tìm ra giá trị tối thiểu tiếp theo
-    {
-        if (so_tien - menh_gia[i] >= 0)
-        {
-            next_min[i] = nmin(so_tien - menh_gia[i], ret.n_dong_theo_menhgia);
-        }
-        else
-        {
-            next_min[i].n_dongtien = unsigned(-1);
-        }
-
-        if (next_min[i].n_dongtien < n_dongtien_min) // lấy giá trị tối thiểu
-        {
-            n_dongtien_min = next_min[i].n_dongtien;
-            ret.n_dongtien = n_dongtien_min;
-            memcpy(&ret.n_dong_theo_menhgia[0], &next_min[i].n_dong_theo_menhgia[0], sizeof(ret.n_dong_theo_menhgia));
-            min_idx = i;
-        }
-    }
-    
-    ret.n_dong_theo_menhgia[min_idx] += 1;
-    ret.n_dongtien += 1;
-
-    return ret;
-}
 void main()
 {
     std::cout << "Nhap so tien can rut: ";
 
-    int so_tien;
+    unsigned so_tien;
     std::cin >> so_tien;
+
+    unsigned so_tien_scaled = so_tien / menh_gia[0];
+    unsigned menh_gia_scaled[N_MENH_GIA];
+    for (int i = 0; i < N_MENH_GIA; ++i)
+    {
+        menh_gia_scaled[i] = menh_gia[i] / menh_gia[0];
+    }
  
-    unsigned theomenhgia[N_MENH_GIA] = { 0 };
-    tien_rut tienrut = nmin(so_tien, theomenhgia);
+    unsigned *sodongtien = new unsigned[so_tien_scaled + 1];
+    sodongtien[0] = 0;
+    for(int so_tiensc = 1; so_tiensc <= so_tien_scaled; ++so_tiensc)
+    {
+        sodongtien[so_tiensc] = unsigned(-1);
+        unsigned sodongtien_truoc;
+        for(int j = 0; j < N_MENH_GIA; ++j)
+        {
+            if(so_tiensc >= menh_gia_scaled[j])
+            {
+                sodongtien_truoc = sodongtien[so_tiensc - menh_gia_scaled[j]];
+                if(sodongtien_truoc + 1 < sodongtien[so_tiensc])
+                {
+                    sodongtien[so_tiensc] = sodongtien_truoc + 1;
+                }
+            }
+        }
+    }
 
     std::cout << "Can: \n";
-    for (int i = N_MENH_GIA-1; i >= 0; --i)
-    {
-        std::cout << menh_gia[i] << " x " << tienrut.n_dong_theo_menhgia[i] << std::endl;
-    }
-    std::cout << "Tong cong: " << tienrut.n_dongtien << " dong";
+    // for (int i = N_MENH_GIA-1; i >= 0; --i)
+    // {
+    //     std::cout << menh_gia[i] << " x " << tienrut.n_dong_theo_menhgia[i] << std::endl;
+    // }
+    std::cout << "Tong cong: " << sodongtien[so_tien_scaled] << " dong";
+
+    delete[] sodongtien;
 }
 
 
