@@ -39,6 +39,7 @@ void main()
 
 
 #include <iostream>
+#include <iomanip>
 #include <ctype.h>
 
 #define N_MENH_GIA 6
@@ -46,7 +47,7 @@ unsigned menh_gia[N_MENH_GIA] = {10, 20, 50, 100, 200, 500 };
 
 void main()
 {
-    std::cout << "Nhap so tien can rut: ";
+    std::cout << "Nhap so tien can rut (don vi 1000 Dong): ";
 
     unsigned so_tien;
     std::cin >> so_tien;
@@ -59,10 +60,15 @@ void main()
     }
  
     unsigned *sodongtien = new unsigned[so_tien_scaled + 1];
+    unsigned *menhgia_cong = new unsigned[so_tien_scaled + 1];
+
     sodongtien[0] = 0;
+    menhgia_cong[0] = 0;
+
     for(int so_tiensc = 1; so_tiensc <= so_tien_scaled; ++so_tiensc)
     {
         sodongtien[so_tiensc] = unsigned(-1);
+        menhgia_cong[so_tiensc] = 0;
         unsigned sodongtien_truoc;
         for(int j = 0; j < N_MENH_GIA; ++j)
         {
@@ -72,19 +78,29 @@ void main()
                 if(sodongtien_truoc + 1 < sodongtien[so_tiensc])
                 {
                     sodongtien[so_tiensc] = sodongtien_truoc + 1;
+                    menhgia_cong[so_tiensc] = j;
                 }
             }
         }
     }
-
+    
+    unsigned theo_menhgia[N_MENH_GIA] = {};
+    unsigned tmp = so_tien_scaled;
+    for(int i = 0; i < sodongtien[so_tien_scaled]; ++i)
+    {
+        int menhgia_idx = menhgia_cong[tmp];
+        theo_menhgia[menhgia_idx]++;
+        tmp -= menh_gia_scaled[menhgia_idx];
+    };
     std::cout << "Can: \n";
-    // for (int i = N_MENH_GIA-1; i >= 0; --i)
-    // {
-    //     std::cout << menh_gia[i] << " x " << tienrut.n_dong_theo_menhgia[i] << std::endl;
-    // }
+    for (int i = N_MENH_GIA-1; i >= 0; --i)
+    {
+        std::cout << "\t" << std::setw(3) << menh_gia[i] << " x " << std::left << std::setw(3) << theo_menhgia[i] << std::endl;
+    }
     std::cout << "Tong cong: " << sodongtien[so_tien_scaled] << " dong";
 
     delete[] sodongtien;
+    delete[] menhgia_cong;
 }
 
 
