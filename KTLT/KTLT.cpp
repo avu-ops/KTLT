@@ -37,70 +37,38 @@ void main()
 }
 */
 
-
 #include <iostream>
 #include <iomanip>
 #include <ctype.h>
 
 #define N_MENH_GIA 6
-unsigned menh_gia[N_MENH_GIA] = {10, 20, 50, 100, 200, 500 };
+unsigned menhGia[N_MENH_GIA] = {10, 20, 50, 100, 200, 500 };
 
 void main()
 {
-    std::cout << "Nhap so tien can rut (don vi 1000 Dong): ";
+    std::cout << "Nhap so tien can rut (don vi 1000 Dong, boi so cua 10): ";
 
-    unsigned so_tien;
-    std::cin >> so_tien;
+    unsigned soTien;
+    std::cin >> soTien;
 
-    unsigned so_tien_scaled = so_tien / menh_gia[0];
-    unsigned menh_gia_scaled[N_MENH_GIA];
-    for (int i = 0; i < N_MENH_GIA; ++i)
-    {
-        menh_gia_scaled[i] = menh_gia[i] / menh_gia[0];
-    }
- 
-    unsigned *sodongtien = new unsigned[so_tien_scaled + 1];
-    unsigned *menhgia_cong = new unsigned[so_tien_scaled + 1];
-
-    sodongtien[0] = 0;
-    menhgia_cong[0] = 0;
-
-    for(int so_tiensc = 1; so_tiensc <= so_tien_scaled; ++so_tiensc)
-    {
-        sodongtien[so_tiensc] = unsigned(-1);
-        menhgia_cong[so_tiensc] = 0;
-        unsigned sodongtien_truoc;
-        for(int j = 0; j < N_MENH_GIA; ++j)
-        {
-            if(so_tiensc >= menh_gia_scaled[j])
-            {
-                sodongtien_truoc = sodongtien[so_tiensc - menh_gia_scaled[j]];
-                if(sodongtien_truoc + 1 < sodongtien[so_tiensc])
-                {
-                    sodongtien[so_tiensc] = sodongtien_truoc + 1;
-                    menhgia_cong[so_tiensc] = j;
-                }
-            }
-        }
-    }
+    unsigned soToTienTongCong = 0;
+    unsigned theoMenhGia[N_MENH_GIA] = { 0 };
     
-    unsigned theo_menhgia[N_MENH_GIA] = {};
-    unsigned tmp = so_tien_scaled;
-    for(int i = 0; i < sodongtien[so_tien_scaled]; ++i)
+    unsigned soToTien = 0;
+    for (int i = N_MENH_GIA - 1; i >= 0; --i)
     {
-        int menhgia_idx = menhgia_cong[tmp];
-        theo_menhgia[menhgia_idx]++;
-        tmp -= menh_gia_scaled[menhgia_idx];
-    };
+        theoMenhGia[i] = soTien / menhGia[i];
+        soTien = soTien % menhGia[i];
+        soToTienTongCong += theoMenhGia[i];
+    }
+
     std::cout << "Can: \n";
     for (int i = N_MENH_GIA-1; i >= 0; --i)
     {
-        std::cout << "\t" << std::setw(3) << menh_gia[i] << " x " << std::left << std::setw(3) << theo_menhgia[i] << std::endl;
+        std::cout << "\t" << std::setw(3) << menhGia[i] << " x " << std::left << std::setw(3) << theoMenhGia[i] << std::endl;
     }
-    std::cout << "Tong cong: " << sodongtien[so_tien_scaled] << " dong";
+    std::cout << "Tong cong: " << soToTienTongCong << " to";
 
-    delete[] sodongtien;
-    delete[] menhgia_cong;
 }
 
 
