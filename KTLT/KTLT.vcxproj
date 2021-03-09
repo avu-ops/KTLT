@@ -147,7 +147,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="KTLT.cpp" />
+    <ClCompile Include="KTLT_bai1.cpp" />
+    <ClCompile Include="KTLT_bai2_932021.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

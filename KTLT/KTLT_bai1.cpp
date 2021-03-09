@@ -44,32 +44,32 @@ void main()
 #define N_MENH_GIA 6
 unsigned menhGia[N_MENH_GIA] = {10, 20, 50, 100, 200, 500 };
 
-void main()
-{
-    std::cout << "Nhap so tien can rut (don vi 1000 Dong, boi so cua 10): ";
-
-    unsigned soTien;
-    std::cin >> soTien;
-
-    unsigned soToTienTongCong = 0;
-    unsigned theoMenhGia[N_MENH_GIA] = { 0 };
-    
-    unsigned soToTien = 0;
-    for (int i = N_MENH_GIA - 1; i >= 0; --i)
-    {
-        theoMenhGia[i] = soTien / menhGia[i];
-        soTien = soTien % menhGia[i];
-        soToTienTongCong += theoMenhGia[i];
-    }
-
-    std::cout << "Can: \n";
-    for (int i = N_MENH_GIA-1; i >= 0; --i)
-    {
-        std::cout << "\t" << std::setw(3) << menhGia[i] << " x " << std::left << std::setw(3) << theoMenhGia[i] << std::endl;
-    }
-    std::cout << "Tong cong: " << soToTienTongCong << " to";
-
-}
+//void main()
+//{
+//    std::cout << "Nhap so tien can rut (don vi 1000 Dong, boi so cua 10): ";
+//
+//    unsigned soTien;
+//    std::cin >> soTien;
+//
+//    unsigned soToTienTongCong = 0;
+//    unsigned theoMenhGia[N_MENH_GIA] = { 0 };
+//    
+//    unsigned soToTien = 0;
+//    for (int i = N_MENH_GIA - 1; i >= 0; --i)
+//    {
+//        theoMenhGia[i] = soTien / menhGia[i];
+//        soTien = soTien % menhGia[i];
+//        soToTienTongCong += theoMenhGia[i];
+//    }
+//
+//    std::cout << "Can: \n";
+//    for (int i = N_MENH_GIA-1; i >= 0; --i)
+//    {
+//        std::cout << "\t" << std::setw(3) << menhGia[i] << " x " << std::left << std::setw(3) << theoMenhGia[i] << std::endl;
+//    }
+//    std::cout << "Tong cong: " << soToTienTongCong << " to";
+//
+//}
 
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
