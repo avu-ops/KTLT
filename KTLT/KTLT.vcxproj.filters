@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="KTLT_bai1.cpp">
+    <ClCompile Include="KTLT_nhom3_bai2_932021.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="KTLT_bai2_932021.cpp">
+    <ClCompile Include="KTLT_nhom3_bai1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
